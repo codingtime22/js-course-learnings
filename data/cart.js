@@ -53,6 +53,19 @@ export function removeFromCart(productId) {
 	safeToLocalStorage();
 }
 
+export function updateDeliveryOption(productId, deliveryOptionId) {
+	let matchingItem;
+
+	cart.forEach((cartItem1) => {
+		if (productId === cartItem1.productId) {
+			matchingItem = cartItem1;
+		}
+	});
+
+	matchingItem.deliveryOptionId = deliveryOptionId;
+	safeToLocalStorage();
+}
+
 export function updateQuantity(productId, newQuantity) {
 	cart.forEach((cartItem3) => {
 		if (cartItem3.productId == productId) {
