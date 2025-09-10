@@ -1,4 +1,4 @@
-import {cart, removeFromCart} from '../data/cart.js';
+import {cart, removeFromCart,updateQuantity} from '../data/cart.js';
 import {products} from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
 import {updateCartQuantity} from './utils/cartUtils.js';
@@ -11,7 +11,7 @@ function renderCheckout() {
     if (!matchingProduct) return;
 
     cartSummaryHTML += `
-      <div class="cart-item-container js-cart-item-container-${cartItem.productId}">
+      <div class="cart-item-container js-cart-item-container-${cartItem.productId}" data-product-id="${cartItem.productId}">
         <div class="delivery-date">Delivery date: Wednesday, June 15</div>
         <div class="cart-item-details-grid">
           <img class="product-image" src="${matchingProduct.image}">
@@ -21,7 +21,7 @@ function renderCheckout() {
             <div class="product-quantity">
               <span>Quantity: <span class="quantity-label">${cartItem.quantity}</span></span>
               <span class="update-quantity-link link-primary js-update-link" data-product-id="${cartItem.productId}">Update</span>
-              <input class="quantity-input" data-product-id="${cartItem.productId}"></input>
+              <input class="quantity-input" data-product-id="${cartItem.productId}" type="number" min="1" max="1000">
               <span class="save-quantity-link link-primary" data-product-id="${cartItem.productId}">Save</span>
               <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${cartItem.productId}">Delete</span>
             </div>
@@ -58,25 +58,49 @@ function renderCheckout() {
 
   document.querySelectorAll('.save-quantity-link').forEach((link3) => {
     link3.addEventListener('click', () => {
-      const productId2 = link3.dataset.productId;
-      
-      const inputFieldParent = document.querySelector(`.js-cart-item-container-${productId2}`);
-      const inputFieldChild = inputFieldParent.querySelector('.quantity-input');
-      
-      const inputValueNumber = Number(inputFieldChild.value); 
-      
-      const cartItem = cart.find(item => item.productId === productId2)
-
-      if (cartItem) {
-        cartItem.quantity = inputValueNumber;
-        updateCartQuantity();
-
-        inputFieldParent.querySelector('.quantity-label').innerText = cartItem.quantity;
-      }
-
-      inputFieldParent.classList.remove('is-editing-quantity');
+      onEventAction(link3.dataset.productId);
     });
   });
+
+  document.body.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      // Find the active input field
+      const activeInput = document.querySelector('.quantity-input:focus');
+      if (!activeInput) return;
+
+      const productId = activeInput.closest('.cart-item-container').dataset.productId;
+      onEventAction(productId);
+
+    }
+  });
+
+}
+
+function onEventAction(productId2) {
+  const inputFieldParent = document.querySelector(`.js-cart-item-container-${productId2}`);
+  const inputFieldChild = inputFieldParent.querySelector('.quantity-input');
+  
+  const inputValueNumber = Number(inputFieldChild.value);
+  let inputValueNumber2;
+  
+  if (inputValueNumber % 1 == 0 && typeof inputValueNumber === 'number') {
+    inputValueNumber2 = inputValueNumber;
+  }
+  else {
+    inputValueNumber2 = 1;
+  }
+
+  const cartItem = cart.find(item => item.productId === productId2)
+
+  if (cartItem) {
+    cartItem.quantity = inputValueNumber2;
+    updateQuantity(productId2, cartItem.quantity);
+
+    inputFieldParent.querySelector('.quantity-label').innerText = cartItem.quantity;
+  }
+
+  inputFieldParent.classList.remove('is-editing-quantity');
+  updateCartQuantity();
 }
 
 renderCheckout();
