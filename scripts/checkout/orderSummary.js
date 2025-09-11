@@ -2,7 +2,7 @@ import {cart, removeFromCart,updateQuantity, updateDeliveryOption} from '../../d
 import {products, getProduct} from '../../data/products.js';
 import {formatCurrency} from '../utils/money.js';
 import {updateCartQuantity} from '../utils/cartUtils.js';
-import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
+// import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js'
 import { renderPaymentSummary } from './paymentSummary.js';
@@ -117,9 +117,8 @@ export function renderOrderSummary() {
     link.addEventListener('click', () => {
       const productId = link.dataset.productId;
       removeFromCart(productId);
-      document.querySelector(`.js-cart-item-container-${productId}`)?.remove();
       updateCartQuantity();
-
+      renderOrderSummary(); // instead of modifiying the DOM this regenerates it (MVC)
       renderPaymentSummary();
     });
   });

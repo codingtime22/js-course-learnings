@@ -233,3 +233,7 @@
 .is-editing-quantity .quantity-label {
   display: none;
 }
+
+.item-quantity-2 {
+  display: inline;
+}

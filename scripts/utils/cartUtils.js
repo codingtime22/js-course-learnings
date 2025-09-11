@@ -12,6 +12,6 @@ export function updateCartQuantity() {
 
 	const itemQuantityEl = document.querySelector('.js-item-quantity');
 	if (itemQuantityEl) itemQuantityEl.innerHTML = cartQuantity;
-
+	
 	return cartQuantity;
 }

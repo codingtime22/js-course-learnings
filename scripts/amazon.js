@@ -46,6 +46,7 @@ products.forEach((productsElement) => {
 
       <div class="product-spacer"></div>
 
+Delivery date: Thursday, Septe
       <div class="added-to-cart">
         <img src="images/icons/checkmark.png">
         Added
