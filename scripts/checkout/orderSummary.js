@@ -22,14 +22,16 @@ export function renderOrderSummary() {
     const deliveryOption = getDeliveryOption(deliveryOptionId);
 
     const date1 = calculateDeliveryDate(deliveryOption);
-    
-    console.log('Important date: ', date1);
+
     /*
     console.log('Important date: ', date2);
-    console.log('Important date: ', date3);*/
+    console.log('Important date: ', date3);
+    */
 
     cartSummaryHTML += `
-      <div class="cart-item-container js-cart-item-container-${cartItem.productId}" data-product-id="${cartItem.productId}">
+      <div class="cart-item-container
+        js-cart-item-container
+        js-cart-item-container-${matchingProduct.id}">
         <div class="delivery-date">
           Delivery date: ${date1}
         </div>
@@ -37,13 +39,17 @@ export function renderOrderSummary() {
           <img class="product-image" src="${matchingProduct.image}">
           <div class="cart-item-details">
             <div class="product-name">${matchingProduct.name}</div>
-            <div class="product-price">$${formatCurrency(matchingProduct.priceCents)}</div>
-            <div class="product-quantity">
+            <div class="product-price">
+              $${formatCurrency(matchingProduct.priceCents)}
+            </div>
+            <div class="product-quantity
+              js-product-quantity-${matchingProduct.id}">
               <span>Quantity: <span class="quantity-label">${cartItem.quantity}</span></span>
               <span class="update-quantity-link link-primary js-update-link" data-product-id="${cartItem.productId}">Update</span>
               <input class="quantity-input" data-product-id="${cartItem.productId}" type="number" min="1" max="1000">
               <span class="save-quantity-link link-primary" data-product-id="${cartItem.productId}">Save</span>
-              <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${cartItem.productId}">Delete</span>
+              <span class="delete-quantity-link link-primary js-delete-link
+              js-delete-link-${matchingProduct.id}" data-product-id="${cartItem.productId}">Delete</span>
             </div>
           </div>
         </div>
@@ -106,7 +112,7 @@ export function renderOrderSummary() {
 
   const orderSummaryEl = document.querySelector('.js-order-summary');
   if (!orderSummaryEl) {
-    console.error('Missing .js-order-summary container in checkout.html');
+    console.log('Missing .js-order-summary container in checkout.html');
     return;
   }
 
