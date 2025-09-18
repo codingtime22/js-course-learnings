@@ -36,10 +36,12 @@ export function renderOrderSummary() {
           Delivery date: ${date1}
         </div>
         <div class="cart-item-details-grid">
+          <!-- 404 (filepath)
           <img class="product-image" src="${matchingProduct.image}">
+          -->
           <div class="cart-item-details">
-            <div class="product-name">${matchingProduct.name}</div>
-            <div class="product-price">
+            <div class="product-name js-product-name">${matchingProduct.name}</div>
+            <div class="product-price js-product-price">
               $${formatCurrency(matchingProduct.priceCents)}
             </div>
             <div class="product-quantity
@@ -64,7 +66,6 @@ export function renderOrderSummary() {
     </div>
     `;
   });
-
 
   function deliveryOptionsHTML(matchingProduct,
   cartItem) {
@@ -118,6 +119,7 @@ export function renderOrderSummary() {
 
   orderSummaryEl.innerHTML = cartSummaryHTML;
 
+  /*
   document.querySelectorAll('.js-delete-link').forEach((link) => {
     link.addEventListener('click', () => {
       const productId = link.dataset.productId;
@@ -126,6 +128,16 @@ export function renderOrderSummary() {
       renderOrderSummary(); // instead of modifiying the DOM this regenerates it (MVC)
       renderPaymentSummary();
     });
+  });
+  */
+
+  // testing...
+  document.querySelector('.js-order-summary').addEventListener('click', (e) => {
+    if (e.target.classList.contains('js-delete-link')) {
+      removeFromCart(e.target.dataset.productId);
+      updateCartQuantity(); 
+      renderOrderSummary();
+    }
   });
 
 
@@ -162,10 +174,8 @@ export function renderOrderSummary() {
 
       const productId = activeInput.closest('.cart-item-container').dataset.productId;
       onEventAction(productId);
-
     }
   });
-
 }
 
 function onEventAction(productId2) {
