@@ -45,19 +45,22 @@ export function addToCart(productId) {
 	safeToLocalStorage();
 }
 
+// in work
 export function removeFromCart(productId) {
-	const newCart = [];
+    // Check if productId exists in cart
+    const existsInCart = cart.some(item => item.productId === productId);
+    if (!existsInCart) return; // do nothing if productId isn't in cart
 
-	cart.forEach((cartItem1) => {
-		if (cartItem1.productId !== productId) {
-			newCart.push(cartItem1);
-		}
-	});
+    let newCart = cart.filter(item => item.productId !== productId);
+    
+    newCart.forEach(item => {
+        cart = newCart;
+    });
 
-	cart = newCart;
-
-	safeToLocalStorage();
+    safeToLocalStorage(); // only called if productId was in cart
 }
+
+
 
 export function updateDeliveryOption(productId, deliveryOptionId) {
 	let matchingItem;

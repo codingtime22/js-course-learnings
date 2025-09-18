@@ -92,4 +92,16 @@ describe('test suite: removeFromCart', () => {
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
     expect(localStorage.setItem).toHaveBeenCalledWith('cart', JSON.stringify(cart));
   });
+
+	it('does nothing if productId is not in the cart',() => {
+		let initialCartLength = cart.length;
+		let initialCartCopy = cart;
+
+		removeFromCart('hahahahahahahahahahahahahahaha');
+
+		expect(cart.length).toEqual(initialCartLength);
+		expect(cart).toEqual(initialCartCopy);
+
+		expect(localStorage.setItem).not.toHaveBeenCalled();
+	});
 });
