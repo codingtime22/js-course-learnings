@@ -84,3 +84,5 @@ const cart = {
 cart.loadFromLocalStorage();
 
 console.log(cart);
+
+// youtube link is in orderSummaryTest...

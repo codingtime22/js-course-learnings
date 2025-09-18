@@ -104,4 +104,4 @@ describe('test suite: renderOrderSummary', () => {
 	*/
 });
 
-// https://www.youtube.com/watch?v=EerdGm-ehJQ&t=63360s 16i
+// https://www.youtube.com/watch?v=EerdGm-ehJQ&t=64343s 16i
